@@ -1,0 +1,117 @@
+@model DeviceManagementSystem.Models.Device
+
+@{
+    ViewData["Title"] = "Add New Device";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-plus"></i> Add New Device</h1>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to List
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-laptop"></i> Device Information</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter device name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="DeviceCode" class="form-label"></label>
+                        <input asp-for="DeviceCode" class="form-control" placeholder="Enter device code (e.g., LAP001)" />
+                        <span asp-validation-for="DeviceCode" class="text-danger"></span>
+                        <div class="form-text">Use a unique code to identify this device</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="DeviceCategoryId" class="form-label"></label>
+                        <select asp-for="DeviceCategoryId" class="form-select" asp-items="ViewBag.DeviceCategoryId">
+                            <option value="">-- Select Category --</option>
+                        </select>
+                        <span asp-validation-for="DeviceCategoryId" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Status" class="form-label"></label>
+                        <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<DeviceManagementSystem.Models.DeviceStatus>()">
+                            <option value="">-- Select Status --</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="DateOfEntry" class="form-label"></label>
+                        <input asp-for="DateOfEntry" class="form-control" type="date" />
+                        <span asp-validation-for="DateOfEntry" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Create Device
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Tips</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success"></i> Use descriptive device names
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success"></i> Create unique device codes
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success"></i> Select appropriate category
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check text-success"></i> Set correct status
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-question-circle"></i> Status Guide</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4"><span class="badge bg-success">In Use</span></dt>
+                    <dd class="col-sm-8">Device is currently being used</dd>
+                    
+                    <dt class="col-sm-4"><span class="badge bg-warning">Under Maintenance</span></dt>
+                    <dd class="col-sm-8">Device is being repaired/maintained</dd>
+                    
+                    <dt class="col-sm-4"><span class="badge bg-danger">Broken</span></dt>
+                    <dd class="col-sm-8">Device is not functional</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

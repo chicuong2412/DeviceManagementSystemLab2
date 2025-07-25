@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4 text-primary">
+        <i class="fas fa-laptop"></i> Device Management System
+    </h1>
+    <p class="lead">Welcome to the Device Management System Dashboard</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3 mb-3">
+        <div class="card bg-primary text-white h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-laptop fa-3x mb-3"></i>
+                <h5 class="card-title">Total Devices</h5>
+                <h2 class="card-text">@ViewBag.TotalDevices</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-success text-white h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-tags fa-3x mb-3"></i>
+                <h5 class="card-title">Categories</h5>
+                <h2 class="card-text">@ViewBag.TotalCategories</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-info text-white h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-3x mb-3"></i>
+                <h5 class="card-title">Users</h5>
+                <h2 class="card-text">@ViewBag.TotalUsers</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-warning text-white h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-tools fa-3x mb-3"></i>
+                <h5 class="card-title">In Maintenance</h5>
+                <h2 class="card-text">@ViewBag.MaintenanceDevices</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-check-circle"></i> Devices In Use</h5>
+            </div>
+            <div class="card-body text-center">
+                <h3 class="text-success">@ViewBag.InUseDevices</h3>
+                <p class="text-muted">Devices currently in use</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <div class="card">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Broken Devices</h5>
+            </div>
+            <div class="card-body text-center">
+                <h3 class="text-danger">@ViewBag.BrokenDevices</h3>
+                <p class="text-muted">Devices requiring repair</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-laptop fa-4x text-primary mb-3"></i>
+                <h5 class="card-title">Manage Devices</h5>
+                <p class="card-text">Add, edit, and manage all devices in the system.</p>
+                <a asp-controller="Devices" asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Go to Devices
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-tags fa-4x text-success mb-3"></i>
+                <h5 class="card-title">Device Categories</h5>
+                <p class="card-text">Organize devices by categories and types.</p>
+                <a asp-controller="DeviceCategories" asp-action="Index" class="btn btn-success">
+                    <i class="fas fa-arrow-right"></i> Go to Categories
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-4x text-info mb-3"></i>
+                <h5 class="card-title">User Management</h5>
+                <p class="card-text">Manage users and employees who use devices.</p>
+                <a asp-controller="Users" asp-action="Index" class="btn btn-info">
+                    <i class="fas fa-arrow-right"></i> Go to Users
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

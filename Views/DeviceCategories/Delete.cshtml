@@ -1,0 +1,195 @@
+@model DeviceManagementSystem.Models.DeviceCategory
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-trash"></i> Delete Category</h1>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to List
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Confirm Deletion</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Warning:</strong> This action cannot be undone. Please review the information below before proceeding.
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Id)</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Id)</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
+                    <dd class="col-sm-9">
+                        <strong class="text-danger">@Html.DisplayFor(model => model.Name)</strong>
+                    </dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Description)</dt>
+                    <dd class="col-sm-9">
+                        @if (string.IsNullOrEmpty(Model.Description))
+                        {
+                            <span class="text-muted">No description provided</span>
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(model => model.Description)
+                        }
+                    </dd>
+
+                    <dt class="col-sm-3">Device Count</dt>
+                    <dd class="col-sm-9">
+                        <span class="badge bg-primary fs-6">@Model.Devices.Count</span>
+                        @if (Model.Devices.Count == 1)
+                        {
+                            <span class="text-muted">device</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">devices</span>
+                        }
+                    </dd>
+                </dl>
+
+                @if (Model.Devices.Any())
+                {
+                    <div class="alert alert-danger">
+                        <i class="fas fa-ban"></i>
+                        <strong>Cannot Delete:</strong> This category contains @Model.Devices.Count device(s). 
+                        You must reassign or delete all devices in this category before you can delete the category.
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Safe to Delete:</strong> This category has no devices assigned to it.
+                    </div>
+                }
+            </div>
+        </div>
+
+        @if (Model.Devices.Any())
+        {
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-laptop"></i> Devices in this Category</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Device Name</th>
+                                    <th>Device Code</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var device in Model.Devices.OrderBy(d => d.Name))
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong>@Html.DisplayFor(modelItem => device.Name)</strong>
+                                        </td>
+                                        <td>
+                                            <code class="bg-light px-2 py-1 rounded">@Html.DisplayFor(modelItem => device.DeviceCode)</code>
+                                        </td>
+                                        <td>
+                                            @{
+                                                var statusClass = device.Status switch
+                                                {
+                                                    DeviceManagementSystem.Models.DeviceStatus.InUse => "bg-success",
+                                                    DeviceManagementSystem.Models.DeviceStatus.Broken => "bg-danger",
+                                                    DeviceManagementSystem.Models.DeviceStatus.UnderMaintenance => "bg-warning",
+                                                    _ => "bg-secondary"
+                                                };
+                                            }
+                                            <span class="badge @statusClass">@Html.DisplayFor(modelItem => device.Status)</span>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Devices" asp-action="Edit" asp-route-id="@device.Id" class="btn btn-sm btn-warning">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <a asp-controller="Devices" asp-action="Delete" asp-route-id="@device.Id" class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i> Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-tools"></i> Actions</h5>
+            </div>
+            <div class="card-body">
+                @if (!Model.Devices.Any())
+                {
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Confirm Delete
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="d-grid gap-2">
+                        <a asp-controller="Devices" asp-action="Index" class="btn btn-primary">
+                            <i class="fas fa-laptop"></i> Manage Devices
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Edit Category
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Important Notes</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                        Categories with devices cannot be deleted
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-info-circle text-info"></i>
+                        You must delete or reassign all devices first
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-undo text-secondary"></i>
+                        This action cannot be undone
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div> 

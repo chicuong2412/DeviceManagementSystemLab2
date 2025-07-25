@@ -1,0 +1,106 @@
+@model DeviceManagementSystem.Models.User
+
+@{
+    ViewData["Title"] = "Delete User";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-trash"></i> Delete User</h1>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to List
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Confirm Deletion</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Warning:</strong> This action cannot be undone. Please review the user information below before proceeding.
+                </div>
+
+                <dl class="row">
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Id)</dt>
+                    <dd class="col-sm-9">@Html.DisplayFor(model => model.Id)</dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FullName)</dt>
+                    <dd class="col-sm-9">
+                        <strong class="text-danger fs-5">@Html.DisplayFor(model => model.FullName)</strong>
+                    </dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Email)</dt>
+                    <dd class="col-sm-9">
+                        <a href="mailto:@Model.Email" class="text-decoration-none">
+                            <i class="fas fa-envelope"></i> @Html.DisplayFor(model => model.Email)
+                        </a>
+                    </dd>
+
+                    <dt class="col-sm-3">@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
+                    <dd class="col-sm-9">
+                        <a href="tel:@Model.PhoneNumber" class="text-decoration-none">
+                            <i class="fas fa-phone"></i> @Html.DisplayFor(model => model.PhoneNumber)
+                        </a>
+                    </dd>
+
+
+                </dl>
+
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Safe to Delete:</strong> This user can be deleted.
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-tools"></i> Actions</h5>
+            </div>
+            <div class="card-body">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Confirm Delete
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Important Notes</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mb-0">
+                    <li class="mb-2">
+                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                        This action cannot be undone
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-info-circle text-info"></i>
+                        User will be permanently removed
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-undo text-secondary"></i>
+                        No recovery possible after deletion
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+</div> 
